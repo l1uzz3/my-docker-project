@@ -5,13 +5,16 @@ FROM python:${VARIANT}
 # Avoid prompts from apt to hang the build
 ARG DEBIAN_FRONTEND=noninteractive
 
-# Install necessary OS dependencies from wsl_installed_packages.txt
-COPY wsl_installed_packages.txt /tmp/wsl_installed_packages.txt
+# Install necessary OS dependencies (adjust this based on your actual project needs)
 RUN apt-get update \
     && apt-get upgrade -y \
-    && apt-get install -y $(awk '{print $1}' /tmp/wsl_installed_packages.txt) \
+    && apt-get install -y \
+       build-essential \
+       libssl-dev \
+       libffi-dev \
+       python3-dev \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/wsl_installed_packages.txt
+    && rm -rf /var/lib/apt/lists/*
 
 # Create a new user 'stefanliute' and give them sudo access
 RUN useradd -m stefanliute -s /bin/bash \
