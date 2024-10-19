@@ -3,14 +3,17 @@
 This document outlines the steps taken to set up a development environment using WSL, Docker, and VSCode, culminating in the version control setup with Git.
 
 ## Step 0: Install Required Software
-1. **Docker**: Installed Docker to facilitate containerization of applications.
-2. **Visual Studio Code (VSCode)**: Installed to provide a robust code editor.
-3. **VSCode Extension for Remote Containers**: Enabled development inside Docker containers directly from VSCode.
-4. **Git**: Installed for version control.
-5. **WSL2**: Enabled Windows Subsystem for Linux for a Unix-like development environment.
+1. **Docker**: Install **Docker Desktop** to facilitate containerization of applications.
+   ![image](https://github.com/user-attachments/assets/bddfe30b-7a70-49d5-aae6-eaa466607189)
+   **Make sure Docker integrates WSL!!!**
+
+3. **Visual Studio Code (VSCode)**: Installed to provide a robust code editor. (I already had it on my windows but when you run for the first time code . in Ubuntu it will require you to install VSCode for Ubuntu)
+4. **VSCode Extension for Remote Containers**: Enabled development inside Docker containers directly from VSCode.
+5. **Git**: Installed for version control.
+6. **WSL2**: Enabled Windows Subsystem for Linux for a Unix-like development environment.
 
 ## Step 1: Install Ubuntu, Python and Git and run it. Configure auth details, etc
-1. **Install Ubuntu**:
+1. **Install Ubuntu (version release 24.04), python3 (version release 3.12.3), git (version release 2.43.0)**:
    - first, open bash (git bash in my case)
    - See options of WSL to install `wsl --list --online`
    - Install WSL Ubuntu using: `wsl --install -d Ubuntu`
@@ -21,49 +24,42 @@ This document outlines the steps taken to set up a development environment using
    - Now from this ![image](https://github.com/user-attachments/assets/14c7693b-a83c-493f-8f1a-2e9a968cb609)
  will go to this ![image](https://github.com/user-attachments/assets/2b929b2e-484f-4fc9-9fc0-744f5ecc75a7)
    - Update the env: `sudo apt update` and `sudo apt upgrade -y`
-2. **Install WSL dependencies by running wsl_installed_packages.txt from the repo**
-   - `sudo dpkg --set-selections < wsl_installed_packages.txt
-      sudo apt-get dselect-upgrade`
-3. **Login to Git account**
+2. **Login to Git account**
    - `git config --global user.name "your_username"`
    - `git config --global user.email "youremail@gmail.com"` _It should be the mail that you use on GitHub!_
    - `git config --global credential.helper manager` this is to set the credentials for further git commands
      - After configuring the credential manager, when you run a Git command that requires authentication (like pushing to a remote repository), it should prompt you for your username and the PAT (Personal Access Token - fast generation on GitHub). The credential manager will save these for future use.
-## Step 2: Create the architecture of the project
-`/project-folder
-    /.devcontainer
-        Dockerfile
-        devcontainer.json
-    /src
-        app.py
-        ...`
-Now let's create these.
-1. **Create main project dir**
-   - `mkdir my-docker-project`
-   - `cd my-docker-project`
-   - `mkdir .devcontainer`
-   - `mkdir src`
-   - `touch .devcontainer/Dockerfile`
-   - `touch .devcontainer/devcontainer.json`
-   - `touch src/app.py`
-   Now the structure of the project is set but you have to edit the content of the files.
-   - Copy everything from classroom Dockerfile to our Dockerfile. `nano Dockerfile` will open it for editing and then you paste the content there (I modified all instances where 'dev' was the username (to 'stefanliute')
-   - Do the same for devcontainer.json (make sure the username to match)
-   - `cd src` and write `code .`. It will install VScode from Ubuntu and it will automatically run. You can modify the app.py there (add a simple code whatever).
-## Step 3: Version control with Git
-**Go on GitHub, create an EMPTY repository 'my-docker-project' _(do NOT create README.md and .gitignore file from GitHub)_**
-**Now ensure that you're in the main folder 'my-docker-project'**
-  - `git init` to initialize the local repository! To ensure that it is initialized, you can write `ls -a` this will list all the hidden and unhidden folders and files in the repo. You should have '.git' folder created.
-  - make sure you're on the same branch as created on GitHub
-  - `git config --global init.defaultBranch <name>` to make the default branch the one from Github _(without <>)_
-  - `git branch -m <name>` 
-  - `git add .` to add all the content of the 'my-docker-project'
-  - `git status` to check what's the status
-  - `git commit -m "first commit, added the local repo"`
-  - `git status`
-  - `git push origin main`
-  - `git status`
-**Now it should work.** Check the remote repo as well
+## Step 2: Version Control with Git
+`git clone` and use whatever remote URL you want _(HTTPS, SSH, CLI)_
+
+## Step 3: Build & run Docker image!
+   - **you only have to build the image once.** Then we could work together.
+     **Make sure to be in the repo directory `cd`**
+     **Open the project in VScode using `code .`**
+      - A prompt will appear in the bottom-right corner of VSCode asking if you want to "Reopen in Container." Click Reopen in Container. This will automatically build and start the Docker container if it's not already built. 
+   - **Rebuilding images should only be necessary when the Dockerfile or other configuration files are modified!**
+## Step 4: Docker workflow
+   **In WSL terminal:**
+1. **Check Docker Status**:
+   `sudo service docker status`
+   If it's running you'll see something like this:
+   ![image](https://github.com/user-attachments/assets/86e1adcb-6e84-4f2b-aca8-d77002e26bc4)
+2. **Check the built / running docker containers:**
+   `docker ps`
+   ![image](https://github.com/user-attachments/assets/e478518c-6fdc-4d74-82a8-a9688c8b04d9)
+   You will only need the `CONTAINER ID` for managing it with start/stop for now.
+   If you want to check the images too, you enter `docker images`(not needed now, but nice to know)
+2. **Stop / start docker container:**
+   ```bash
+   docker stop <container_id>
+   docker start <container_id>
+   ```
+3. **Reloading the work:**
+   When you want to reload the work another day:
+- you just have to enter the WSL terminal (search for WSL in the windows search)
+   ![image](https://github.com/user-attachments/assets/09933d57-b6fa-4eee-aaa9-01ca5a015379)
+- and just **start the container** and run `code .` to open VScode from Ubuntu and start coding (make sure to be in the repo with `cd`).
+## Step 5: Enjoy the process together.
 
 
 
