@@ -1,24 +1,17 @@
-# Use Ubuntu 20.04 LTS as the base image
-FROM ubuntu:20.04
+# Use the official Python image with the specified version (e.g., 3.9, 3.10, etc.)
+ARG VARIANT=3.10-bullseye
+FROM python:${VARIANT}
 
 # Avoid prompts from apt to hang the build
 ARG DEBIAN_FRONTEND=noninteractive
 
-# Update the package repository and install packages
+# Install necessary OS dependencies from wsl_installed_packages.txt
+COPY wsl_installed_packages.txt /tmp/wsl_installed_packages.txt
 RUN apt-get update \
     && apt-get upgrade -y \
-    && apt-get install -y \
-       sudo \
-       python3-pip \
-       python3-dev \
-       git \
-       vim \
-       curl \
-       wget \
-       bash-completion \
-       build-essential \
+    && apt-get install -y $(awk '{print $1}' /tmp/wsl_installed_packages.txt) \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* /tmp/wsl_installed_packages.txt
 
 # Create a new user 'stefanliute' and give them sudo access
 RUN useradd -m stefanliute -s /bin/bash \
@@ -28,16 +21,13 @@ RUN useradd -m stefanliute -s /bin/bash \
 USER stefanliute
 WORKDIR /home/stefanliute
 
-# Optional: Set up a Python virtual environment (recommended)
+# Install Python virtual environment and Python dependencies from python_requirements.txt
+COPY python_requirements.txt /home/stefanliute/python_requirements.txt
 RUN python3 -m pip install --user virtualenv \
     && python3 -m virtualenv venv \
-    && echo "source ~/venv/bin/activate" >> ~/.bashrc
-
-# Optional: Install any global Python packages
-# RUN python3 -m pip install flask django numpy pandas
-
-# Set the default shell to bash instead of sh
-SHELL ["/bin/bash", "--login", "-c"]
+    && echo "source ~/venv/bin/activate" >> ~/.bashrc \
+    && source ~/venv/bin/activate \
+    && pip install --user -r /home/stefanliute/python_requirements.txt
 
 # Expose any ports the app needs
 EXPOSE 8080

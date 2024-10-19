@@ -1,18 +1,11 @@
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the
-// README at: https://github.com/devcontainers/templates/tree/main/src/cpp
 {
-	"name": "DSIP-lab",
-"build": {
-    "context": "..",  // Ensures Docker looks at the project root
-    "dockerfile": "Dockerfile"
-},
-	// Features to add to the dev container. More info: https://containers.dev/features.
-	// "features": {},
-
-	// Configure tool-specific properties.
-	"customizations": {
-		// Configure properties specific to VS Code.
-		"vscode": {
+    "name": "Python Development Environment",
+    "build": {
+        "context": "..",  
+        "dockerfile": "Dockerfile"
+    },
+    "customizations": {
+        "vscode": {
             "settings": {
                 "terminal.integrated.defaultProfile.linux": "bash",
                 "terminal.integrated.profiles.linux": {
@@ -23,12 +16,13 @@
                 }
             },
             "extensions": [
+                "ms-python.python",
                 "streetsidesoftware.code-spell-checker",
-				"ms-azuretools.vscode-docker"
+                "ms-azuretools.vscode-docker"
             ]
         }
-	},
-
-	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-	"remoteUser": "stefanliute"
+    },
+    "remoteUser": "stefanliute",
+    "forwardPorts": [8080],
+    "postCreateCommand": "source ~/.bashrc && python3 -m pip install --user -r python_requirements.txt"
 }
