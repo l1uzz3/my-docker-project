@@ -2,7 +2,8 @@
     "name": "Python Development Environment",
     "build": {
         "context": "..",  
-        "dockerfile": "Dockerfile"
+        "dockerfile": "/home/stefanliute/my-docker-project/.devcontainer/Dockerfile"
+
     },
     "customizations": {
         "vscode": {
