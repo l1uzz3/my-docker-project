@@ -1,13 +1,13 @@
 {
     "name": "Python Development Environment",
     "build": {
-        "context": "..",  
-        "dockerfile": "../Dockerfile"
-
+        "dockerfile": "./Dockerfile",
+        "context": "."
     },
     "customizations": {
         "vscode": {
             "settings": {
+                "python.defaultInterpreterPath": "/home/dev/venv/bin/python",
                 "terminal.integrated.defaultProfile.linux": "bash",
                 "terminal.integrated.profiles.linux": {
                     "bash": {
@@ -23,7 +23,7 @@
             ]
         }
     },
-    "remoteUser": "stefanliute",
+    "remoteUser": "dev",
     "forwardPorts": [8080],
-    "postCreateCommand": "source ~/.bashrc && python3 -m pip install --user -r python_requirements.txt"
+    "postCreateCommand": ". ~/.bashrc"
 }
