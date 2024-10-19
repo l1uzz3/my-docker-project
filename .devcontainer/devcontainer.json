@@ -2,7 +2,7 @@
     "name": "Python Development Environment",
     "build": {
         "context": "..",  
-        "dockerfile": "/home/stefanliute/my-docker-project/.devcontainer/Dockerfile"
+        "dockerfile": "../Dockerfile"
 
     },
     "customizations": {
