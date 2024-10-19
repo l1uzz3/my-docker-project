@@ -60,6 +60,8 @@ This document outlines the steps taken to set up a development environment using
    ![image](https://github.com/user-attachments/assets/09933d57-b6fa-4eee-aaa9-01ca5a015379)
 - and just **start the container** and run `code .` to open VScode from Ubuntu and start coding (make sure to be in the repo with `cd`).
 ## Step 5: Enjoy the process together.
+![image](https://github.com/user-attachments/assets/930581c4-2348-4179-8b97-c4179c763dd4)
+
 
 
 
