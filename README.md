@@ -7,7 +7,7 @@ This document outlines the steps taken to set up a development environment using
    ![image](https://github.com/user-attachments/assets/bddfe30b-7a70-49d5-aae6-eaa466607189)
    **Make sure Docker integrates WSL!!!**
 
-3. **Visual Studio Code (VSCode)**: Installed to provide a robust code editor. (I already had it on my windows but when you run for the first time code . in Ubuntu it will require you to install VSCode for Ubuntu)
+3. **Visual Studio Code (VSCode)**: Installed to provide a robust code editor. (I already had it on my windows but when you run for the first time `code .` in Ubuntu it will require you to install VSCode for Ubuntu)
 4. **VSCode Extension for Remote Containers**: Enabled development inside Docker containers directly from VSCode.
 5. **Git**: Installed for version control.
 6. **WSL2**: Enabled Windows Subsystem for Linux for a Unix-like development environment.
